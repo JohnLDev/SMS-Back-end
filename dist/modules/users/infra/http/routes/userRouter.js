@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var multer_1 = __importDefault(require("multer"));
+var upload_1 = __importDefault(require("../../../../../config/upload"));
+var ensureaAuthenticated_1 = __importDefault(require("../../../../../shared/infra/http/middlewares/ensureaAuthenticated"));
+var UserController_1 = __importDefault(require("../controllers/UserController"));
+var userController = new UserController_1.default();
+var userRouter = express_1.Router();
+var upload = multer_1.default(upload_1.default);
+userRouter.get('/index', userController.Index);
+userRouter.get('/show/:id', userController.Show);
+userRouter.post('/signup', upload.array('images'), userController.Create);
+userRouter.post('/login', userController.Login);
+userRouter.patch('/verify-email/:verify_Key', userController.VerifyEmail);
+userRouter.post('/redefine-password-email', userController.SendRedefinePasswordEmail);
+userRouter.patch('/redefine-password', userController.RedefinePassword);
+userRouter.delete('/userdelete/:id', ensureaAuthenticated_1.default, userController.Delete);
+userRouter.put('/userupdate/', ensureaAuthenticated_1.default, upload.array('images'), userController.Update);
+exports.default = userRouter;

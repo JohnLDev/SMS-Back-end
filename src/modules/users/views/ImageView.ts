@@ -8,7 +8,7 @@ export default {
   render(image: Image): IResponse {
     return {
       id: image.id,
-      path: `${process.env.API_URL}/uploads/images/${image.path}`,
+      path: `${process.env.API_URL}uploads/images/${image.path}`,
     }
   },
   renderMany(images: Image[]): IResponse[] {
